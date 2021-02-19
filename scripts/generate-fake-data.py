@@ -5,7 +5,7 @@ import random
 import os
 
 
-DATA_CNT = 5000
+DATA_CNT = 10000
 
 DEGREES = ['CS', 'MA', 'PSY', 'WR', 'ME', 'IE', 'RBE', 'ECE']
 PROBS = {
@@ -68,7 +68,8 @@ if __name__ == '__main__':
 
   print('Writing to file...')
   df = df.append(list(data))
+
   filename = 'fake-trajectories-{}.csv'.format(DATA_CNT)
-  df.to_csv(filename)
+  df.to_csv(filename, index_label='id')
 
   print('Done. Written to {}'.format(filename))
