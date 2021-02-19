@@ -1,3 +1,8 @@
+# Workspace-specific
+**/.vscode/
+*.swp
+venv-*/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
