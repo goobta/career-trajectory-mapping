@@ -1,6 +1,7 @@
 # Workspace-specific
 **/.vscode/
 *.swp
+*.csv
 venv-*/
 
 # Byte-compiled / optimized / DLL files
