@@ -5,8 +5,6 @@ import random
 import os
 
 
-DATA_CNT = 5000
-
 DEGREES = ['CS', 'MA', 'PSY', 'WR', 'ME', 'IE', 'RBE', 'ECE']
 PROBS = {
   'major_2': 0.5,
@@ -61,7 +59,7 @@ def generate_person_dict(_):
   return person
   
 
-if __name__ == '__main__':
+def create_dataset(count):
   df = pd.DataFrame(columns=[
     'major', 'major_2', 'masters', 'phd', 'grad_year', 'location',
     'job1', 'job1_start', 'job1_end', 'job1_sector', 'job1_salary',
@@ -72,12 +70,16 @@ if __name__ == '__main__':
 
   print('Generating data...')
   with futures.ProcessPoolExecutor(max_workers=os.cpu_count() or 2) as exec:
-    data = exec.map(generate_person_dict, range(DATA_CNT), chunksize=100)
+    data = exec.map(generate_person_dict, range(count), chunksize=100)
 
-  print('Writing to file...')
-  df = df.append(list(data))
+  return df.append(list(data))
+  
 
-  filename = 'fake-trajectories-{}.csv'.format(DATA_CNT)
+if __name__ == '__main__':
+  count = int(input('How many people do you want to generate?: '))
+
+  filename = 'fake-trajectories-{}.csv'.format(count)
+  df = create_dataset(count)  
   df.to_csv(filename, index_label='id')
 
   print('Done. Written to {}'.format(filename))
