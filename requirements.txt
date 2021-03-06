@@ -1,2 +1,6 @@
 pandas
 requests
+selenium
+beautifulsoup4
+requests
+lxml
