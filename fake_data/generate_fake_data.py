@@ -7,7 +7,6 @@ import os
 
 DEGREES = ['CS', 'MA', 'PSY', 'WR', 'ME', 'IE', 'RBE', 'ECE']
 PROBS = {
-  'major_2': (0.5, 0),
   'masters': (0.5, 2),
   'phd': (0.1, 4),
 }
@@ -28,6 +27,7 @@ _MAX_JOBS = 4
 def generate_person_dict(_):
   person = {}
   person['major'] = random.choice(DEGREES)
+  person['major_2'] = random.choice(DEGREES) if random.random() < .5 else None
   person['grad_year'] = random.randint(*GRAD_YEARS)
 
   last_year = person['grad_year']
