@@ -7,9 +7,9 @@ import os
 
 DEGREES = ['CS', 'MA', 'PSY', 'WR', 'ME', 'IE', 'RBE', 'ECE']
 PROBS = {
-  'major_2': 0.5,
-  'masters': 0.5,
-  'phd': 0.1
+  'major_2': (0.5, 0),
+  'masters': (0.5, 2),
+  'phd': (0.1, 4),
 }
 
 GRAD_YEARS = (1990, 2021)
@@ -29,13 +29,18 @@ def generate_person_dict(_):
   person = {}
   person['major'] = random.choice(DEGREES)
   person['grad_year'] = random.randint(*GRAD_YEARS)
-  person['location'] = random.choice(LOCATIONS)
 
-  for degree, prob in PROBS.items():
+  last_year = person['grad_year']
+  for degree, (prob, length) in PROBS.items():
     person[degree] = random.choice(DEGREES) if random.random() < prob else None
+    person[f'{degree}_location'] = random.choice(LOCATIONS)
+    person[f'{degree}_start'] = last_year
+
+    last_year += int(length)
+    person[f'{degree}_end'] = last_year
 
   job_cnt = random.randint(1, _MAX_JOBS)
-  last_job = person['grad_year']
+  last_job = last_year
   for i in range(job_cnt):
     job_id = 'job{}'.format(i + 1)
     job_end = last_job + random.randint(*JOB_DUR_BOUNDS)
@@ -44,35 +49,19 @@ def generate_person_dict(_):
     person['{}_start'.format(job_id)] = last_job
     person['{}_end'.format(job_id)] = job_end
     person['{}_sector'.format(job_id)] = random.choice(SECTORS)
-    person['{}_salary'.format(job_id)] = random.randint(*SALARY_RANGE)
+    person['{}_location'.format(job_id)] = random.choice(LOCATIONS)
 
     last_job = job_end
-
-  for i in range(job_cnt, _MAX_JOBS):
-    job_id = 'job{}'.format(i + 1)
-    person[job_id] = None
-    person['{}_start'.format(job_id)] = None
-    person['{}_end'.format(job_id)] = None
-    person['{}_sector'.format(job_id)] = None
-    person['{}_salary'.format(job_id)] = None
 
   return person
   
 
 def create_dataset(count):
-  df = pd.DataFrame(columns=[
-    'major', 'major_2', 'masters', 'phd', 'grad_year', 'location',
-    'job1', 'job1_start', 'job1_end', 'job1_sector', 'job1_salary',
-    'job2', 'job2_start', 'job2_end', 'job2_sector', 'job2_salary',
-    'job3', 'job3_start', 'job3_end', 'job3_sector', 'job3_salary',
-    'job4', 'job4_start', 'job4_end', 'job4_sector', 'job4_salary',
-  ])
-
   print('Generating data...')
   with futures.ProcessPoolExecutor(max_workers=os.cpu_count() or 2) as exec:
     data = exec.map(generate_person_dict, range(count), chunksize=100)
 
-  return df.append(list(data))
+  return pd.DataFrame((list(data)))
   
 
 if __name__ == '__main__':
