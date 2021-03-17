@@ -2,6 +2,7 @@
 **/.vscode/
 *.swp
 *.csv
+*.json
 venv-*/
 
 # Byte-compiled / optimized / DLL files
