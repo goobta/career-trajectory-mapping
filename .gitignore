@@ -3,6 +3,7 @@
 *.swp
 *.csv
 *.json
+bus.xls
 venv-*/
 
 # Byte-compiled / optimized / DLL files
