@@ -1,6 +1,9 @@
 from datetime import date, datetime
 from bs4 import BeautifulSoup
 from selenium import webdriver
+
+import pandas as pd
+import random
 import time
 
 
@@ -9,10 +12,9 @@ driver = webdriver.Chrome('/home/agupta/bin/chromedriver')
 
 def scrape(url):
   driver.get('https://linkedin.com')
-  time.sleep(0.75)
+  time.sleep(random.uniform(0.25, 1))
 
   driver.get(url)
-  time.sleep(0.5)
   soup = BeautifulSoup(driver.page_source, 'html.parser')
 
   info = {}
@@ -44,5 +46,32 @@ def scrape(url):
       info[f'Job {i} End Month'] = today.strftime('%b')
       info[f'Job {i} End Year'] = today.year
 
+  orgs = soup.find('ul', class_='organizations__list') 
+  info['organizations'] = orgs and [o.text.strip() 
+                                    for o in orgs.find_all('h3', class_='result-card__title')]
+
   for k,v in info.items():
     print(f'{k}: {v}')
+
+  # Fake human behavior
+  time.sleep(random.uniform(.75, 2))
+  height = driver.execute_script('return document.body.scrollHeight')
+
+  position = int(random.random() * height / 8)
+  while position < height:
+    driver.execute_script('window.scrollTo({top:' + str(position) + ', left:0, behavior: "smooth"});')
+    time.sleep(random.uniform(.33, 1.5))
+    position += int(random.random() * height / 4)
+
+  return info
+
+
+if __name__ == '__main__':
+  urls = []
+  dicts = []
+  for u in urls:
+    try:
+      alum = scrape(u)
+      dicts.append(alum)
+    except:
+      pass
