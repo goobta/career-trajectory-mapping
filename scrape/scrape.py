@@ -1,13 +1,18 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
 from datetime import date, datetime
 from bs4 import BeautifulSoup
-from selenium import webdriver
 
 import pandas as pd
 import random
 import time
 
 
-driver = webdriver.Chrome('/home/agupta/bin/chromedriver')
+opt = Options()
+opt.add_argument('--headless')
+opt.add_argument('--disable_gpu')
+driver = webdriver.Chrome('/bin/chromedriver', options=opt)
 
 
 def scrape(url):
