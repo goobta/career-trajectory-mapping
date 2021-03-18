@@ -71,6 +71,7 @@ def scrape(url):
   return info
 
 
+"""
 if __name__ == '__main__':
   urls = []
   dicts = []
@@ -80,3 +81,4 @@ if __name__ == '__main__':
       dicts.append(alum)
     except:
       pass
+"""

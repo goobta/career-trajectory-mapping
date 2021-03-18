@@ -10,9 +10,9 @@ import time
 
 
 opt = Options()
-opt.add_argument('--headless')
-opt.add_argument('--disable_gpu')
-driver = webdriver.Chrome('/bin/chromedriver', options=opt)
+# opt.add_argument('--headless')
+# opt.add_argument('--disable_gpu')
+driver = webdriver.Chrome('/home/agupta/bin/chromedriver', options=opt)
 
 
 def scrape(url):
@@ -63,8 +63,8 @@ def scrape(url):
   info['organizations'] = orgs and [o.text.strip() 
                                     for o in orgs.find_all('h3', class_='result-card__title')]
 
-  for k,v in info.items():
-    print(f'{k}: {v}')
+  # for k,v in info.items():
+  #   print(f'{k}: {v}')
 
   # Fake human behavior
   time.sleep(random.uniform(.75, 2))
