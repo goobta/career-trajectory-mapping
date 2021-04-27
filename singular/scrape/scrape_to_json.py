@@ -12,14 +12,13 @@ import time
 opt = Options()
 # opt.add_argument('--headless')
 # opt.add_argument('--disable_gpu')
-driver = webdriver.Chrome('/home/agupta/bin/chromedriver', options=opt)
 
+driver = webdriver.Chrome('/home/agupta/bin/chromedriver', options=opt)
+driver.implicitly_wait(2)
 
 def scrape(url):
-  driver.get('https://linkedin.com')
-  time.sleep(random.uniform(0.25, 1))
-
   driver.get(url)
+  time.sleep(.25)
   soup = BeautifulSoup(driver.page_source, 'html.parser')
 
   info = {}
@@ -96,8 +95,12 @@ def scrape(url):
 
 
 if __name__ == '__main__':
+  input()
   urls = [
-    # LinkedIn URLs go here...
+    'https://www.linkedin.com/in/oscarxavierquint',
+    'https://www.linkedin.com/in/anthony-smith-19bb127',
+    'https://www.linkedin.com/in/ben-english-46a746183',
+    'https://www.linkedin.com/in/kyle-costa-b0550641',
   ]
   dicts = []
   for u in urls:
