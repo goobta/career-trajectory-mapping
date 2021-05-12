@@ -8,7 +8,7 @@
   <i>An interactive dashboard to evaluate alumni's post-WPI experience</i>
   <br/>
   <br/>
-  <a href='https://observablehq.com/@agupta/wpi-alumni-dashboard' target='_blank' ><img src="https://i.imgur.com/4I3NwSv.png" alt="screenshot" width=600/></a>
+  <a href='https://observablehq.com/@agupta/wpi-alumni-dashboard' target='_blank' rel="noopener noreferrer"><img src="https://i.imgur.com/4I3NwSv.png" alt="screenshot" width=600/></a>
 </p>
 
 ---
